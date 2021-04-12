@@ -1,0 +1,96 @@
+Create Table Users(
+	Documento INTEGER not null,
+	Nombre varchar(50) not null,
+	Apellido varchar(50) not null,
+	contraseña varchar(50) not null,
+	correo varchar(50) unique,
+	primary key (Documento)
+);
+
+create table roles(
+	Documento integer not null,
+	_role varchar(50) not null check (_role in('Funcionario','Guarda','administrador')),
+	foreign key (Documento) references users (documento) on delete cascade,
+	primary key (Documento)
+);
+
+Create table Actividad(
+	CodigoActividad Integer not null,
+	Nombre varchar(50) not null,
+	primary key (CodigoActividad)
+);
+
+Create table Asignatura(
+	CodigoAsignatura Integer not null,
+	foreign key(CodigoAsignatura) references Actividad(CodigoActividad) on delete cascade,
+	primary key (CodigoAsignatura)
+);
+
+Create Table Programa(
+	Cod_prog integer not null unique,
+	Nombre varchar(50) not null,
+	Jornada varchar(50) not null check (Jornada in('Diurna','Nocturna')),
+	Primary key (Cod_prog,Jornada)
+);
+
+Create Table Asociado(
+	CodigoAsignatura integer not null,
+	Cod_prog integer not null,
+	jornada varchar(50) check (jornada in ('Diurna','Nocturna')),
+	foreign key (CodigoAsignatura) references Asignatura(CodigoAsignatura) on delete cascade,
+	foreign key (Cod_prog,jornada) references Programa (Cod_prog,jornada) on delete Cascade,
+	primary key(CodigoAsignatura,Cod_prog)
+);
+
+
+Create Table Sede(
+	Num_sede integer not null,
+	Nombre varchar(50) not null,
+	Direccion varchar(50) not null,
+	primary key(Num_sede)
+);
+
+Create Table Ambiente(
+	Cod_ambiente Varchar(50) not null,
+	Area varchar(50) not null,
+	Nombre varchar(50) not null,
+	Capacidad integer not null ,
+	Tipo_ambiente varchar(50) not null,
+	Num_sede integer not null,
+	Foreign key (Num_sede) references Sede (Num_sede) on delete cascade,
+	Primary key (Cod_ambiente)
+);
+
+Create Table ElementosAmbiente(
+	Codigo_Elemento varchar(50) not null, 
+	Nombre varchar(50) not null,
+	Cod_ambiente varchar(50) not null,
+	foreign key (Cod_ambiente) references Ambiente(Cod_ambiente) on delete cascade,
+	Primary key(Codigo_Elemento)
+);
+
+Create Table Reserva(
+	Cod_reserva integer not null,
+	Fecha_inicio date not null,
+	Hora_inicio time not null,
+	Hora_fin time not null,
+	Fecha_fin date not null,
+	documento_funcionario Integer not null ,
+	CodigoActividad integer not null,
+	CodigoAmbiente varchar(50) not null,
+	Foreign key (Documento_Funcionario) references roles (Documento) on delete cascade,
+	Foreign key (CodigoActividad) references Actividad(CodigoActividad) on delete cascade,
+	Foreign key (CodigoAmbiente) references Ambiente(Cod_ambiente) on delete cascade,
+	Primary key (Cod_reserva)
+);
+
+Create table Reserva_details(
+	Cod_reserva Integer not null,
+	Observacion varchar(50),
+	Hora_entrega time not null,
+	Hora_salida time not null,
+	documento_guarda integer not null,
+	foreign key (documento_guarda) references roles(Documento) on delete cascade,
+	foreign key (Cod_reserva) references reserva(Cod_reserva) on delete cascade,
+	primary key(Cod_reserva)
+);

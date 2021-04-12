@@ -1,0 +1,21 @@
+/*
+    public String ConsultarUsers(){
+        return getBd().getAllusers("users","roles");
+    }
+    public String ConsultarSedes(){
+        return getBd().getAllfromTable("sede");
+    }
+    public String ConsultarProgramas(){
+        return getBd().getAllfromTable("programa");
+    }
+    public String ConsultarAsignaturas(){
+        return getBd().getAllofTablasJoinned("Asignatura", "Actividad","Asignatura.codigoasignatura,nombre", "codigoasignatura", "codigoactividad");
+    }
+    public String ConsultarEvento(){
+        return getBd().getAllofTablasJoinned("evento", "Actividad","evento.codigoevento,nombre,tipo", "codigoevento ", "codigoactividad");
+    }
+    public String ConsultarAmbiente(){
+        return getBd().getAllfromTable("Ambiente");
+    }
+    
+     */
